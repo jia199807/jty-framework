@@ -11,6 +11,7 @@ import com.jty.service.CategoryService;
 import com.jty.system.SystemConstants;
 import com.jty.utils.BeanCopyUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,13 +25,15 @@ import java.util.stream.Collectors;
  * @author makejava
  * @since 2023-07-21 04:46:54
  */
-@RequiredArgsConstructor
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper
 , Category> implements CategoryService {
 
-    private final ArticleService articleService;
-
+    private  ArticleService articleService;
+    @Autowired
+    public void setArticleService(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     @Override
     public ResponseResult getCategoryList() {
