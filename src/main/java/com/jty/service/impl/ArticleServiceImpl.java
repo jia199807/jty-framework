@@ -1,16 +1,9 @@
 package com.jty.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jty.domain.entity.Article;
-import com.jty.domain.entity.Category;
-import com.jty.domain.entity.vo.ArticleVo;
+import com.jty.domain.entity.vo.ArticleListVo;
 import com.jty.domain.entity.vo.HotArticleVo;
 import com.jty.domain.entity.vo.PageVo;
 import com.jty.mapper.ArticleMapper;
@@ -20,8 +13,6 @@ import com.jty.service.CategoryService;
 import com.jty.system.SystemConstants;
 import com.jty.utils.BeanCopyUtils;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -81,15 +72,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper
                 .page(new Page<>(pageNum, pageSize));
 
 
-        // 封装成ArticleVo
+        // 封装成ArticleListVo
         List<Article> articles = page.getRecords();
-        List<ArticleVo> articleVos = BeanCopyUtils.copyBeanList(articles, ArticleVo.class);
+
         //查询categoryName
         CategoryService categoryService = getcategoryService();
-        List<ArticleVo> articleVoList = articleVos.stream()
-                .map(articleVo -> articleVo.setCategoryName(categoryService.getById(articleVo.getCategoryId()).getName()))
-                .collect(Collectors.toList());
+        List<ArticleListVo> articleListVos = BeanCopyUtils.copyBeanList(articles, ArticleListVo.class)
+                .stream()
+                .map(articleListVo -> articleListVo.setCategoryName(categoryService.getById(articleListVo.getCategoryId()).getName()))
+                .collect(Collectors.toList());;
 
-        return ResponseResult.okResult(new PageVo(articleVoList,page.getTotal()));
+
+        return ResponseResult.okResult(new PageVo(articleListVos,page.getTotal()));
     }
 }

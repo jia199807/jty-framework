@@ -1,6 +1,5 @@
 package com.jty.domain.entity.vo;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class ArticleVo {
+public class ArticleListVo {
 
     private Long id;
     //标题
