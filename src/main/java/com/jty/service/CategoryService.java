@@ -13,5 +13,11 @@ import com.jty.response.ResponseResult;
  */
 public interface CategoryService extends IService<Category> {
 
+    /**
+     * @author 6420
+     * @description ①要求只展示有发布正式文章的分类 ②必须是正常状态的分类
+     * @date 10:30 2023/7/21
+     * @return com.jty.response.ResponseResult
+     **/
     ResponseResult getCategoryList();
 }

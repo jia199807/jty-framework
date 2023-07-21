@@ -28,7 +28,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper
     public ResponseResult hotArticleList() {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         // 必须是正式文章
-        queryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL);
+        queryWrapper.eq(Article::getStatus, SystemConstants.STATUS_NORMAL);
         // 按照浏览量排序
         queryWrapper.orderByDesc(Article::getViewCount);
 
