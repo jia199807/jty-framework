@@ -22,3 +22,11 @@ spring:
         logic-delete-value: 1
         logic-not-delete-value: 0
         id-type: auto
+
+application:
+  security:
+    jwt:
+      secret-key: cereshuzhitingnizhenbangcereshuzhitingnizhenbang
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
