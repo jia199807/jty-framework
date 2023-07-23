@@ -1,5 +1,6 @@
 package com.jty.service.impl;
 
+import com.jty.domain.entity.LoginUser;
 import com.jty.domain.entity.User;
 import com.jty.domain.entity.vo.BlogUserLoginVo;
 import com.jty.domain.entity.vo.UserInfoVo;
@@ -13,8 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service("blogLoginService")
 public class BlogLoginServiceImpl implements BlogLoginService {
@@ -32,18 +31,17 @@ public class BlogLoginServiceImpl implements BlogLoginService {
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
 
-        // 判断是否认证通过
-        if (Objects.isNull(authenticate)) {
-            throw new RuntimeException("用户名或密码错误");
-        }
-        String userId = String.valueOf(user.getId());
+
+        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
+
+        String userId = loginUser.getUser().getId().toString();
 
         String jwtToken = JwtUtil.createJWT(userId);
         // 把用户信息存入redis
-        redisCache.setCacheObject("blog:" + userId, user);
+        redisCache.setCacheObject("bloglogin:" + userId, loginUser.getUser());
 
         // 把User转换成UserInfoVo
-        UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, UserInfoVo.class);
+        UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfoVo.class);
 
         // 把token和userInfoVo封装 返回
         BlogUserLoginVo blogUserLoginVo = new BlogUserLoginVo(jwtToken, userInfoVo);
