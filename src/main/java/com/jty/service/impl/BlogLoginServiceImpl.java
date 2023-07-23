@@ -36,10 +36,11 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         if (Objects.isNull(authenticate)) {
             throw new RuntimeException("用户名或密码错误");
         }
+        String userId = String.valueOf(user.getId());
 
-        String jwtToken = JwtUtil.buildToken(null, String.valueOf(user.getId()));
+        String jwtToken = JwtUtil.createJWT(userId);
         // 把用户信息存入redis
-        redisCache.setCacheObject("blog:" + user.getId(), user);
+        redisCache.setCacheObject("blog:" + userId, user);
 
         // 把User转换成UserInfoVo
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, UserInfoVo.class);

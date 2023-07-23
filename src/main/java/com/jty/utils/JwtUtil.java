@@ -1,195 +1,117 @@
 package com.jty.utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
+import java.util.UUID;
 
+/**
+ * JWT工具类
+ */
 public class JwtUtil {
-    /**
-     * 密钥、Token过期时间、Refresh Token过期时间
-     * https://allkeysgenerator.com/
-     * <p>
-     * JWT最低要求的安全级别是256bit
-     */
 
-    // TODO 无法读取配置文件中的值
+    // 有效期为
+    public static final Long JWT_TTL = 24 * 60 * 60 * 1000L;// 60 * 60 *1000  一个小时
+    // 设置秘钥明文
+    public static final String JWT_KEY = "asdqweasasdqweasasdqweasasdqweasasdqweasasdqweasasdqweasasdqweas";
 
-    @Value("${application.security.jwt.secret-key}")
-    private static String secretKey = "cereshuzhitingnizhenbangcereshuzhitingnizhenbang";
-    @Value("${application.security.jwt.expiration}")
-    // 过期时间
-    private static long jwtExpiration = 86400000;
-    @Value("${application.security.jwt.refresh-token.expiration}")
-    private long refreshExpiration = 604800000;
-
-    /**
-     * 2、获取签名密钥的方法
-     *
-     * @return 基于指定的密钥字节数组创建用于HMAC-SHA算法的新SecretKey实例
-     */
-    private static Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+    public static String getUUID() {
+        String token = UUID.randomUUID().toString().replaceAll("-", "");
+        return token;
     }
 
     /**
-     * 6.1、生成token
+     * 生成jtw
      *
-     * @param
+     * @param subject token中要存放的数据（json格式）
      * @return
      */
-    public static String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public static String createJWT(String subject) {
+        JwtBuilder builder = getJwtBuilder(subject, null, getUUID());// 设置过期时间
+        return builder.compact();
     }
 
     /**
-     * 6.2、生成token
+     * 生成jtw
      *
-     * @param
+     * @param subject   token中要存放的数据（json格式）
+     * @param ttlMillis token超时时间
      * @return
      */
-    public static String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
-        return buildToken(extraClaims, userDetails, jwtExpiration);
+    public static String createJWT(String subject, Long ttlMillis) {
+        JwtBuilder builder = getJwtBuilder(subject, ttlMillis, getUUID());// 设置过期时间
+        return builder.compact();
+    }
+
+    private static JwtBuilder getJwtBuilder(String subject, Long ttlMillis, String uuid) {
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        SecretKey secretKey = generalKey();
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+        if (ttlMillis == null) {
+            ttlMillis = JwtUtil.JWT_TTL;
+        }
+        long expMillis = nowMillis + ttlMillis;
+        Date expDate = new Date(expMillis);
+        return Jwts.builder()
+                .setId(uuid)              // 唯一的ID
+                .setSubject(subject)   // 主题  可以是JSON数据
+                .setIssuer("sg")     // 签发者
+                .setIssuedAt(now)      // 签发时间
+                .signWith(signatureAlgorithm, secretKey) // 使用HS256对称加密算法签名, 第二个参数为秘钥
+                .setExpiration(expDate);
     }
 
     /**
-     * 9.1 真正的生成token方法
+     * 创建token
      *
-     * @param
+     * @param id
+     * @param subject
+     * @param ttlMillis
      * @return
      */
+    public static String createJWT(String id, String subject, Long ttlMillis) {
+        JwtBuilder builder = getJwtBuilder(subject, ttlMillis, id);// 设置过期时间
+        return builder.compact();
+    }
 
-    private static String buildToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails,
-            long expiration
-    ) {
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
+    public static void main(String[] args) throws Exception {
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjYWM2ZDVhZi1mNjVlLTQ0MDAtYjcxMi0zYWEwOGIyOTIwYjQiLCJzdWIiOiJzZyIsImlzcyI6InNnIiwiaWF0IjoxNjM4MTA2NzEyLCJleHAiOjE2MzgxMTAzMTJ9.JVsSbkP94wuczb4QryQbAke3ysBDIL5ou8fWsbt_ebg";
+        Claims claims = parseJWT(token);
+        System.out.println(claims);
     }
 
     /**
-     * 9.2 真正的生成token方法 byId
+     * 生成加密后的秘钥 secretKey
      *
-     * @param
      * @return
      */
-
-    public static String buildToken(
-            Map<String, Object> extraClaims,
-            String userId
-    ) {
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userId)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
+    public static SecretKey generalKey() {
+        byte[] encodedKey = Base64.getDecoder().decode(JwtUtil.JWT_KEY);
+        SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "HmacSHA256");
+        return key;
     }
 
     /**
-     * 1、解析token字符串中的加密信息【加密算法&加密密钥】, 提取所有声明的方法
+     * 解析
      *
-     * @param token
+     * @param jwt
      * @return
+     * @throws Exception
      */
-    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
+    public static Claims parseJWT(String jwt) throws Exception {
+        SecretKey secretKey = generalKey();
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(jwt)
                 .getBody();
     }
-
-    /**
-     * 3、从token中解析出username
-     *
-     * @param token
-     * @return
-     */
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    /**
-     * 4、解析token字符串中的权限信息
-     *
-     * @param token
-     * @return
-     */
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    /**
-     * 5、检验token合法性
-     *
-     * @param
-     * @return
-     */
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
-    }
-
-    /**
-     * 5.1、判断token是否过期
-     *
-     * @param
-     * @return
-     */
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    /**
-     * 5.2、从授权信息中获取token过期时间
-     *
-     * @param
-     * @return
-     */
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    /**
-     * 7、生成Refresh Token
-     *
-     * @param
-     * @return
-     */
-    public String generateRefreshToken(
-            UserDetails userDetails
-    ) {
-        return buildToken(new HashMap<>(), userDetails, refreshExpiration);
-    }
-
-
-
-
 
 
 }

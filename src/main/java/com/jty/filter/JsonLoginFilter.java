@@ -1,6 +1,6 @@
 package com.jty.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson2.JSON;
 import com.jty.domain.entity.User;
 import com.jty.utils.RedisCache;
 import jakarta.annotation.Resource;
@@ -34,7 +34,7 @@ public class JsonLoginFilter extends UsernamePasswordAuthenticationFilter {
             String password = null;
             try {
                 // 解析请求体中的 JSON 参数
-                User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+                User user = JSON.parseObject(request.getInputStream(), User.class);
                 username = user.getUsername();
                 username = (username != null) ? username.trim() : "";
                 password = user.getPassword();

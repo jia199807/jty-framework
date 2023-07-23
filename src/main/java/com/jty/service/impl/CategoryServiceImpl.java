@@ -10,7 +10,6 @@ import com.jty.service.ArticleService;
 import com.jty.service.CategoryService;
 import com.jty.system.SystemConstants;
 import com.jty.utils.BeanCopyUtils;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

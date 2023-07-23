@@ -1,6 +1,6 @@
 package com.jty.utils;
 
-import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 @Component
 public class RedisCache {
-    @Resource
+    @Autowired
     public RedisTemplate redisTemplate;
 
     /**
@@ -70,11 +70,6 @@ public class RedisCache {
     public <T> T getCacheObject(final String key) {
         ValueOperations<String, T> operation = redisTemplate.opsForValue();
         return operation.get(key);
-    }
-
-    public void incrementCacheMapValue(String key, String hKey, int i) {
-        redisTemplate.opsForHash().increment(key, hKey, i);
-
     }
 
     /**
