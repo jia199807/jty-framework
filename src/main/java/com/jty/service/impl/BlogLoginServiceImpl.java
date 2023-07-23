@@ -38,7 +38,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
 
         String jwtToken = JwtUtil.createJWT(userId);
         // 把用户信息存入redis
-        redisCache.setCacheObject("bloglogin:" + userId, loginUser.getUser());
+        redisCache.setCacheObject("bloglogin:" + userId, loginUser);
 
         // 把User转换成UserInfoVo
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfoVo.class);
