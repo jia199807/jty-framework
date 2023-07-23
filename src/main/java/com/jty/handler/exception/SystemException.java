@@ -1,4 +1,4 @@
-package com.jty.exception;
+package com.jty.handler.exception;
 
 import com.jty.enums.AppHttpCodeEnum;
 
