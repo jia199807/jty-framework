@@ -90,6 +90,7 @@ public class ResponseResult<T> implements Serializable {
         return this;
     }
 
+
     public ResponseResult<?> ok(Integer code, T data) {
         this.code = code;
         this.data = data;

@@ -65,6 +65,13 @@ public class JwtUtil {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
+    /**
+     * 9.1 真正的生成token方法
+     *
+     * @param
+     * @return
+     */
+
     private static String buildToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails,
@@ -76,6 +83,27 @@ public class JwtUtil {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    /**
+     * 9.2 真正的生成token方法 byId
+     *
+     * @param
+     * @return
+     */
+
+    public static String buildToken(
+            Map<String, Object> extraClaims,
+            String userId
+    ) {
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(userId)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

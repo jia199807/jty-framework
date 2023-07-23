@@ -1,5 +1,6 @@
 package com.jty.service.impl;
 
+import com.jty.domain.entity.LoginUser;
 import com.jty.domain.entity.User;
 import com.jty.service.UserService;
 import jakarta.annotation.Resource;
@@ -29,6 +30,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         // 返回用户信息
         // TODO 查询权限信息封装
-        return user;
+        return new LoginUser(user);
     }
 }

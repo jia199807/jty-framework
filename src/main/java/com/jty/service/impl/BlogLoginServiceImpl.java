@@ -37,7 +37,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
             throw new RuntimeException("用户名或密码错误");
         }
 
-        String jwtToken = JwtUtil.generateToken(user);
+        String jwtToken = JwtUtil.buildToken(null, String.valueOf(user.getId()));
         // 把用户信息存入redis
         redisCache.setCacheObject("blog:" + user.getId(), user);
 
