@@ -8,6 +8,7 @@ class JtyFrameworkApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }

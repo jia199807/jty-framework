@@ -22,7 +22,6 @@ spring:
         logic-delete-value: 1
         logic-not-delete-value: 0
         id-type: auto
-
 application:
   security:
     jwt:
@@ -30,3 +29,10 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+
+
+#oss:
+#  accessKey: "ZoZtjrL-z-i5KukZQinQIdzmGigosjkFM98OOWS3"
+#  secretKey: "32ax_bbsvV9eqvckrr9Fk9cRYf5CMfu04DjkGANk"
+#  bucket: "jty-blog"
+#  domain: "http://rvsco2odf.hn-bkt.clouddn.com/"
