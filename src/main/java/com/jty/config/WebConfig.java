@@ -42,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
         config.setDateFormat("yyyy-MM-dd HH:mm:ss");
 
         // 2.1 配置序列化的行为
-        config.setWriterFeatures(JSONWriter.Feature.PrettyFormat);
+        config.setWriterFeatures(JSONWriter.Feature.PrettyFormat, JSONWriter.Feature.BrowserCompatible);
 
         // 2.2 配置反序列化的行为
         config.setReaderFeatures(JSONReader.Feature.FieldBased, JSONReader.Feature.SupportArrayToBean);

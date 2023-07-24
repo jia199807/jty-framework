@@ -6,11 +6,14 @@ import com.jty.domain.entity.Comment;
 import com.jty.domain.entity.User;
 import com.jty.domain.entity.vo.CommentVo;
 import com.jty.domain.entity.vo.PageVo;
+import com.jty.enums.AppHttpCodeEnum;
+import com.jty.handler.exception.SystemException;
 import com.jty.mapper.CommentMapper;
 import com.jty.response.ResponseResult;
 import com.jty.service.CommentService;
 import com.jty.service.UserService;
 import com.jty.utils.BeanCopyUtils;
+import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +54,17 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper
         return ResponseResult.okResult(new PageVo(commentVoWithChildrenList, page.getTotal()));
     }
 
+    @Override
+    public ResponseResult addComment(Comment comment) {
+        // 评论内容为空
+        if (StringUtils.isBlank(comment.getContent())) {
+            throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
+        }
+
+        save(comment);
+        return ResponseResult.okResult();
+    }
+
     /**
      * 根据根评论的id查询所对应的子评论的集合
      *
@@ -79,7 +93,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper
                 // 获取该评论所回复用户
                 User toCommentUser = userService.getById(commentVo.getToCommentUserId());
                 // 该评论所回复用户的用户名（因为前端写成用户名了，逻辑上来看应该是返回昵称）
-                commentVo.setToCommentUserName(toCommentUser.getUsername());
+                commentVo.setToCommentUserName(toCommentUser.getNickName());
             }
         });
         return commentVoList;
