@@ -10,10 +10,12 @@ import com.jty.utils.BeanCopyUtils;
 import com.jty.utils.JwtUtil;
 import com.jty.utils.RedisCache;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
 @Service("blogLoginService")
@@ -27,10 +29,14 @@ public class BlogLoginServiceImpl implements BlogLoginService {
 
 
     @Override
-    public ResponseResult login(User user) {
+    public ResponseResult login(User user, HttpSession session) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+
+        // 手动存入SecurityContextHolder
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 
 
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();

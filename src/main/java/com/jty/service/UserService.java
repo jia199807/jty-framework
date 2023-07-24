@@ -2,6 +2,7 @@ package com.jty.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jty.domain.entity.User;
+import com.jty.response.ResponseResult;
 
 
 /**
@@ -12,4 +13,5 @@ import com.jty.domain.entity.User;
  */
 public interface UserService extends IService<User> {
 
+    ResponseResult userInfo();
 }
