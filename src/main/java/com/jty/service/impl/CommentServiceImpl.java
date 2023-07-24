@@ -12,6 +12,7 @@ import com.jty.mapper.CommentMapper;
 import com.jty.response.ResponseResult;
 import com.jty.service.CommentService;
 import com.jty.service.UserService;
+import com.jty.system.SystemConstants;
 import com.jty.utils.BeanCopyUtils;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
@@ -33,11 +34,15 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper
     UserService userService;
 
     @Override
-    public ResponseResult commentList(Long articleId, Integer pageNum, Integer pageSize) {
-        // 查询文章的所有根评论 （rootId=-1)
+    public ResponseResult commentList(String commentType, Long articleId, Integer pageNum, Integer pageSize) {
+
+        // 查询所有根评论 （rootId=-1)
         Page<Comment> page = lambdaQuery()
-                .eq(Comment::getArticleId, articleId)
                 .eq(Comment::getRootId, -1)
+                // 如果是文章的评论要判断文章id，友链则不用判断
+                .eq(SystemConstants.ARTICLE_COMMENT.equals(commentType), Comment::getArticleId, articleId)
+                // 根据评论类型进行判断
+                .eq(Comment::getType, commentType)
                 // 分页
                 .page(new Page<>(pageNum, pageSize));
         List<Comment> commentList = page.getRecords();
