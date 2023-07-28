@@ -1,7 +1,7 @@
 package com.jty.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jty.domain.entity.Article;
+import com.jty.entity.Article;
 import org.apache.ibatis.annotations.Mapper;
 
 

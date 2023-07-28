@@ -1,4 +1,4 @@
-package com.jty.domain.entity.vo;
+package com.jty.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,16 +6,22 @@ import lombok.NoArgsConstructor;
 
 /**
  * @program: blog
- * @description: 分类列表中的category
+ * @description:
  * @author: 6420
- * @create: 2023-07-21 10:12
+ * @create: 2023-07-22 02:54
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryListVo {
+public class LinkVo {
 
     private Long id;
-    // 分类名
+
     private String name;
+
+    private String logo;
+
+    private String description;
+    //网站地址
+    private String address;
 }

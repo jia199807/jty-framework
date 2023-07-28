@@ -1,4 +1,4 @@
-package com.jty.domain.entity;
+package com.jty.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.jty.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jty.domain.entity.Comment;
+import com.jty.entity.Comment;
 import com.jty.response.ResponseResult;
 
 

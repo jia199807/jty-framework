@@ -2,10 +2,8 @@ package com.jty.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jty.domain.entity.Comment;
-import com.jty.domain.entity.User;
-import com.jty.domain.entity.vo.CommentVo;
-import com.jty.domain.entity.vo.PageVo;
+import com.jty.entity.Comment;
+import com.jty.entity.User;
 import com.jty.enums.AppHttpCodeEnum;
 import com.jty.handler.exception.SystemException;
 import com.jty.mapper.CommentMapper;
@@ -14,6 +12,8 @@ import com.jty.service.CommentService;
 import com.jty.service.UserService;
 import com.jty.system.SystemConstants;
 import com.jty.utils.BeanCopyUtils;
+import com.jty.vo.CommentVo;
+import com.jty.vo.PageVo;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -91,14 +91,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper
             // 获取发表评论的用户对象
             User user = userService.getById(commentVo.getCreateBy());
             // 将昵称作为用户名返回（因为前端写成用户名了，逻辑上来看应该是返回昵称）
-            commentVo.setUsername(user.getNickName());
+            commentVo.setUsername(user.getNickname());
 
             // 对于非根评论
             if (commentVo.getRootId() != -1) {
                 // 获取该评论所回复用户
                 User toCommentUser = userService.getById(commentVo.getToCommentUserId());
                 // 该评论所回复用户的用户名（因为前端写成用户名了，逻辑上来看应该是返回昵称）
-                commentVo.setToCommentUserName(toCommentUser.getNickName());
+                commentVo.setToCommentUserName(toCommentUser.getNickname());
             }
         });
         return commentVoList;

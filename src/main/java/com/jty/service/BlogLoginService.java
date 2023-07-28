@@ -1,6 +1,6 @@
 package com.jty.service;
 
-import com.jty.domain.entity.User;
+import com.jty.entity.User;
 import com.jty.response.ResponseResult;
 import jakarta.servlet.http.HttpSession;
 

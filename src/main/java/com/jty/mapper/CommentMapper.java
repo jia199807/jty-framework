@@ -1,7 +1,7 @@
 package com.jty.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jty.domain.entity.Comment;
+import com.jty.entity.Comment;
 
 
 /**

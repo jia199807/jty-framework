@@ -1,14 +1,14 @@
 package com.jty.service.impl;
 
-import com.jty.domain.entity.LoginUser;
-import com.jty.domain.entity.User;
-import com.jty.domain.entity.vo.BlogUserLoginVo;
-import com.jty.domain.entity.vo.UserInfoVo;
+import com.jty.entity.LoginUser;
+import com.jty.entity.User;
 import com.jty.response.ResponseResult;
 import com.jty.service.BlogLoginService;
 import com.jty.utils.BeanCopyUtils;
 import com.jty.utils.JwtUtil;
 import com.jty.utils.RedisCache;
+import com.jty.vo.BlogUserLoginVo;
+import com.jty.vo.UserInfoVo;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -2,7 +2,7 @@ package com.jty.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.jty.domain.entity.Category;
+import com.jty.entity.Category;
 
 /**
  * 分类表(Category)表数据库访问层

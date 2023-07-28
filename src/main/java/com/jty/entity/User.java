@@ -1,34 +1,42 @@
-package com.jty.domain.entity;
+package com.jty.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 /**
  * 用户表(User)表实体类
  *
  * @author makejava
- * @since 2023-07-22 03:40:22
+ * @since 2023-07-28 00:47:18
  */
 @SuppressWarnings("serial")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @TableName("sys_user")
-public class User {
+public class User implements Serializable, UserDetails {
+
+    private static final long serialVersionUID = 1L;
     // 主键
-    @TableId
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
     // 用户名
     private String username;
     // 昵称
-    private String nickName;
+    private String nickname;
     // 密码
     private String password;
     // 用户类型：0代表普通用户，1代表管理员
@@ -44,19 +52,41 @@ public class User {
     // 头像
     private String avatar;
     // 创建人的用户id
-    @TableField(fill = FieldFill.INSERT)
     private Long createBy;
     // 创建时间
-    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     // 更新人
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
     // 更新时间
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
     // 删除标志（0代表未删除，1代表已删除）
     private Integer delFlag;
 
+    private Role role = Role.USER;
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return role.getAuthorities();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

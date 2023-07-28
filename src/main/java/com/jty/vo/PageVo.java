@@ -1,14 +1,15 @@
-package com.jty.domain.entity.vo;
+package com.jty.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BlogUserLoginVo {
-
-    private String token;
-    private UserInfoVo userInfo;
+public class PageVo {
+    private List rows;
+    private Long total;
 }

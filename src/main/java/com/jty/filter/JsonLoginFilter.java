@@ -1,7 +1,7 @@
 package com.jty.filter;
 
 import com.alibaba.fastjson2.JSON;
-import com.jty.domain.entity.User;
+import com.jty.entity.User;
 import com.jty.utils.RedisCache;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

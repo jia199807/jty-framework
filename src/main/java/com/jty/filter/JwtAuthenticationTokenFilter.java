@@ -1,7 +1,7 @@
 package com.jty.filter;
 
 import com.alibaba.fastjson2.JSON;
-import com.jty.domain.entity.LoginUser;
+import com.jty.entity.LoginUser;
 import com.jty.enums.AppHttpCodeEnum;
 import com.jty.response.ResponseResult;
 import com.jty.utils.JwtUtil;

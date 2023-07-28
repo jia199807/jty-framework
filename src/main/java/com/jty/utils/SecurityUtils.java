@@ -1,6 +1,6 @@
 package com.jty.utils;
 
-import com.jty.domain.entity.LoginUser;
+import com.jty.entity.LoginUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

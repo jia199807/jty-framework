@@ -1,4 +1,4 @@
-package com.jty.domain.entity;
+package com.jty.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

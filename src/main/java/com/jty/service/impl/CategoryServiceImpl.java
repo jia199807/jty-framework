@@ -1,15 +1,15 @@
 package com.jty.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jty.domain.entity.Article;
-import com.jty.domain.entity.Category;
-import com.jty.domain.entity.vo.CategoryListVo;
+import com.jty.entity.Article;
+import com.jty.entity.Category;
 import com.jty.mapper.CategoryMapper;
 import com.jty.response.ResponseResult;
 import com.jty.service.ArticleService;
 import com.jty.service.CategoryService;
 import com.jty.system.SystemConstants;
 import com.jty.utils.BeanCopyUtils;
+import com.jty.vo.CategoryListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

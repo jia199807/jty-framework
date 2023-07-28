@@ -1,21 +1,18 @@
 package com.jty.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jty.domain.entity.User;
-import com.jty.response.ResponseResult;
-
+import com.jty.entity.User;
 
 /**
- * 用户表(User)表服务接口
+ * <p>
+ * 服务类
+ * </p>
  *
- * @author makejava
- * @since 2023-07-22 03:44:28
+ * @author OR
+ * @since 2023-06-03
  */
 public interface UserService extends IService<User> {
 
-    ResponseResult userInfo();
+    User findByUsername(String email);
 
-    ResponseResult updateUserInfo(User user);
-
-    ResponseResult register(User user);
 }

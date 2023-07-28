@@ -1,8 +1,8 @@
 package com.jty.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.jty.domain.entity.LoginUser;
-import com.jty.domain.entity.User;
+import com.jty.entity.LoginUser;
+import com.jty.entity.User;
 import com.jty.enums.AppHttpCodeEnum;
 import com.jty.handler.exception.SystemException;
 import com.jty.service.UserService;

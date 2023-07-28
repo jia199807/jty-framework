@@ -1,4 +1,4 @@
-package com.jty.domain.entity.vo;
+package com.jty.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,29 +9,29 @@ import java.util.Date;
 
 /**
  * @program: blog
- * @description:
+ * @description: 文章详情Vo
  * @author: 6420
- * @create: 2023-07-21 11:23
+ * @create: 2023-07-22 01:45
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class ArticleListVo {
+public class ArticleDetailsVo {
 
     private Long id;
     //标题
     private String title;
-    //文章摘要
-    private String summary;
     //所属分类id
     private Long categoryId;
     // 分类名称
     private String categoryName;
-    //缩略图
-    private String thumbnail;
     //访问量
     private Long viewCount;
-
+    // 创建时间
     private Date createTime;
+    //文章内容
+    private String content;
+    //是否允许评论 1是，0否
+    private String isComment;
 }

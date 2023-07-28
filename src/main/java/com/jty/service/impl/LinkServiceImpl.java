@@ -1,13 +1,13 @@
 package com.jty.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jty.domain.entity.Link;
-import com.jty.domain.entity.vo.LinkVo;
+import com.jty.entity.Link;
 import com.jty.mapper.LinkMapper;
 import com.jty.response.ResponseResult;
 import com.jty.service.LinkService;
 import com.jty.system.SystemConstants;
 import com.jty.utils.BeanCopyUtils;
+import com.jty.vo.LinkVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
