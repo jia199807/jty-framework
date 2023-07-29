@@ -70,7 +70,7 @@ public class LogAspect {
         // // 打印请求的 IP
         log.info("IP             : {}", request.getRemoteHost());
         // // 打印请求入参
-        log.info("Request Args   : {}", JSON.toJSONString(joinPoint.getArgs()));
+        // log.info("Request Args   : {}", JSON.toJSONString(joinPoint.getArgs()));
     }
 
     private SystemLog getSystemLog(ProceedingJoinPoint joinPoint) {

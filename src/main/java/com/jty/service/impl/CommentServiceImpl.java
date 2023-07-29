@@ -91,14 +91,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper
             // 获取发表评论的用户对象
             User user = userService.getById(commentVo.getCreateBy());
             // 将昵称作为用户名返回（因为前端写成用户名了，逻辑上来看应该是返回昵称）
-            commentVo.setUsername(user.getNickName());
+            commentVo.setUsername(user.getNickname());
 
             // 对于非根评论
             if (commentVo.getRootId() != -1) {
                 // 获取该评论所回复用户
                 User toCommentUser = userService.getById(commentVo.getToCommentUserId());
                 // 该评论所回复用户的用户名（因为前端写成用户名了，逻辑上来看应该是返回昵称）
-                commentVo.setToCommentUserName(toCommentUser.getNickName());
+                commentVo.setToCommentUserName(toCommentUser.getNickname());
             }
         });
         return commentVoList;

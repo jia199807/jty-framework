@@ -55,7 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper
         if (!StringUtils.hasText(user.getEmail())) {
             throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
         }
-        if (!StringUtils.hasText(user.getNickName())) {
+        if (!StringUtils.hasText(user.getNickname())) {
             throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
         }
 
@@ -63,7 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper
         if (usernameExist(user.getUsername())) {
             throw new SystemException(AppHttpCodeEnum.USERNAME_EXIST);
         }
-        if (nicknameExist(user.getNickName())) {
+        if (nicknameExist(user.getNickname())) {
             throw new SystemException(AppHttpCodeEnum.NICKNAME_EXIST);
         }
 
@@ -82,7 +82,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper
 
     private boolean nicknameExist(String nickName) {
         boolean b = lambdaQuery()
-                .eq(User::getNickName, nickName)
+                .eq(User::getNickname, nickName)
                 .exists();
         return b;
     }
